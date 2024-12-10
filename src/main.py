@@ -14,17 +14,17 @@ import stat
 
 
 def is_hidden(filepath: str) -> bool:
-    if os.path.basename(filepath).startswith('.'):
+    if os.path.basename(filepath).startswith("."):
         return True
     try:
-        return bool(os.stat(filepath).st_file_attributes &
-                    stat.FILE_ATTRIBUTE_HIDDEN)
+        return bool(os.stat(filepath).st_file_attributes & stat.FILE_ATTRIBUTE_HIDDEN)
     except AttributeError:
         return False
 
 
-def list_files(startpath: str, depth: int = -1, level: int = 0,
-               show_hidden: bool = False) -> None:
+def list_files(
+    startpath: str, depth: int = -1, level: int = 0, show_hidden: bool = False
+) -> None:
     if depth == 0:
         return
     if level == 0:
@@ -32,31 +32,29 @@ def list_files(startpath: str, depth: int = -1, level: int = 0,
 
     for element in os.listdir(startpath):
         path = os.path.join(startpath, element)
-        indent = ' ' * 4 * level
-        if (element.startswith('.') or is_hidden(path)) and not show_hidden:
+        indent = " " * 4 * level
+        if (element.startswith(".") or is_hidden(path)) and not show_hidden:
             continue
         if os.path.isdir(path):
-            print(f'{indent}└── {element}/')
-            list_files(path, depth-1, level+1, show_hidden)
+            print(f"{indent}└── {element}/")
+            list_files(path, depth - 1, level + 1, show_hidden)
         else:
-            if element.startswith('.') or is_hidden(path):
+            if element.startswith(".") or is_hidden(path):
                 # Скрытые файлы будут отображаться на сером фоне
-                print(f'{indent}└── \033[100m{element}\033[0m')
+                print(f"{indent}└── \033[100m{element}\033[0m")
             else:
-                print(f'{indent}└── {element}')
+                print(f"{indent}└── {element}")
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description='Display directory tree')
-    parser.add_argument('path', nargs='?', default='.', help='Directory path')
-    parser.add_argument('-d', '--depth', type=int,
-                        default=-1, help='Depth of the tree')
-    parser.add_argument('--hidden', action='store_true',
-                        help='Show hidden files')
+    parser = argparse.ArgumentParser(description="Display directory tree")
+    parser.add_argument("path", nargs="?", default=".", help="Directory path")
+    parser.add_argument("-d", "--depth", type=int, default=-1, help="Depth of the tree")
+    parser.add_argument("--hidden", action="store_true", help="Show hidden files")
     args = parser.parse_args()
 
     list_files(args.path, args.depth, show_hidden=args.hidden)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
