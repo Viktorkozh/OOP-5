@@ -6,20 +6,16 @@ repos:
   - id: poetry-lock  
   - id: poetry-export  
   - id: poetry-install
-  - id: poetry-export  
-  - repo: https://github.com/psf/black
-    rev: 24.10.0 
-    hooks:
-      - id: black
+  - id: poetry-export
 
-  - repo: https://github.com/pycqa/flake8
-    rev: 7.1.1 
-    hooks:
-      - id: flake8
-        additional_dependencies:
-            - flake8-pyproject
+- repo: https://github.com/pycqa/flake8
+  rev: 7.1.1 
+  hooks:
+    - id: flake8
+      additional_dependencies:
+          - flake8-pyproject
 
-  - repo: https://github.com/pre-commit/mirrors-isort
-    rev: v5.10.1 
-    hooks:
-      - id: isort
+- repo: https://github.com/pre-commit/mirrors-isort
+  rev: v5.10.1 
+  hooks:
+    - id: isort
